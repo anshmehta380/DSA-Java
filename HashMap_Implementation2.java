@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.LinkedList;
 public class HashMap_Implementation2 {
     static class HashMap2<K,V>{ // generics
         private class Node{
@@ -25,14 +26,14 @@ public class HashMap_Implementation2 {
         private int hashFunction(K key){
             // "%" is used because the data index should always be lesser than the no. of buckets suppose if N=5 then n=4. N>n always satisfies
             // return Positive 0 - (N-1)
-            return Math.abs(key.hashCode())%N;
+            int bi = key.hashCode();
+            return Math.abs(bi)%N;
         }
         private int searchInLL(K key,int bi){
             // taking the linked list stored at bucket index
             LinkedList<Node> ll = buckets[bi];
-            int di = 0;
             for(int i = 0; i<ll.size();i++){
-                if(ll.get(i)==key){
+                if(ll.get(i).key==key){
                     return i;
                 }
             }
@@ -85,6 +86,7 @@ public class HashMap_Implementation2 {
             }
             else{
                 Node data = buckets[bi].remove(di);
+                n--;
                 return data.value;
             }
         }
@@ -104,7 +106,7 @@ public class HashMap_Implementation2 {
             ArrayList<K> keys = new ArrayList<>();
             for(int i =0; i<buckets.length; i++){ // bi
                 LinkedList<Node> ll = buckets[i];
-                for(int j = 0; j < ll.size(); j++){ // di  
+                for(int j = 0; j < ll.size(); j++){ // di
                     Node node = ll.get(j);
                     keys.add(node.key);
                 }
@@ -121,5 +123,9 @@ public class HashMap_Implementation2 {
         ans.put("India",100);
         ans.put("China",200);
         ans.put("Russia",300);
+        ArrayList<String> keys = ans.keySet();
+        for(int i=0; i < keys.size(); i++){
+            System.out.println("Key: "+keys.get(i)+" Values: "+ans.get(keys.get(i)));
+        }
     }
 }
